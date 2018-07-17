@@ -1,0 +1,5 @@
+DB_HOST: 127.0.0.1
+DB_NAME: database_name
+DB_USER: database_username
+DB_PASSWORD: database_password
+DB_SSL_MODE: disable
