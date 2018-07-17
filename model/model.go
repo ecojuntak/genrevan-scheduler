@@ -9,7 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var DB *sql.DB
+var Db *sql.DB
 
 func SetupDatabase(env string) error {
 	var connection string
@@ -39,7 +39,7 @@ func SetupDatabase(env string) error {
 		return err
 	}
 
-	DB = db
+	Db = db
 
 	return nil
 }
