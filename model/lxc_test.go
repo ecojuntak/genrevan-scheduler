@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
+	"github.com/go-squads/genrevan-scheduler/migration"
 	"github.com/go-squads/genrevan-scheduler/model"
 )
 
@@ -12,6 +13,8 @@ var lxcModel model.Lxc
 
 func setup() {
 	model.SetupDatabase("testing")
+	migration.RunMigration()
+	migration.RunSeeder()
 }
 
 func TestGetLXCs_ExpectedSuccess(t *testing.T) {
