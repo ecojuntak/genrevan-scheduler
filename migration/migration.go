@@ -14,7 +14,7 @@ func RunMigration() error {
 		return err
 	}
 
-	queryString, err := GetStringFromFile("schema.sql")
+	queryString, err := GetStringFromFile("../migration/schema.sql")
 
 	if err != nil {
 		return err
@@ -31,7 +31,7 @@ func RunSeeder() error {
 		return err
 	}
 
-	queryString, err := GetStringFromFile("seeder.sql")
+	queryString, err := GetStringFromFile("../migration/seeder.sql")
 
 	if err != nil {
 		return err
