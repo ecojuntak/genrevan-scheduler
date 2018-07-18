@@ -1,6 +1,7 @@
 package model_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -57,4 +58,24 @@ func TestDeleteLXC_ExpectedDataDeleted(t *testing.T) {
 	lxc, err := lxcModel.GetLXC(3)
 	assert.Empty(t, lxc)
 	assert.NotEqual(t, nil, err)
+}
+
+func TestUpdateLXCIpAddress_ExpectedSuccess(t *testing.T) {
+	setup()
+
+	err := lxcModel.UpdateIpAddress(1, "123.123.123.123")
+	assert.Equal(t, nil, err)
+
+	lxc, err := lxcModel.GetLXC(1)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "123.123.123.123", lxc.IpAddress.String)
+}
+
+func TestUpdateLXCIpAddress_ExpectedErrorDuplicateIp(t *testing.T) {
+	setup()
+
+	err := lxcModel.UpdateIpAddress(1, "127.0.0.1")
+	assert.Equal(t, nil, err)
+	err = lxcModel.UpdateIpAddress(2, "127.0.0.1")
+	assert.True(t, strings.Contains(err.Error(), "duplicate key value violates unique constraint"))
 }

@@ -68,3 +68,13 @@ func (l *Lxc) DeleteLXC(id int) error {
 
 	return nil
 }
+
+func (l *Lxc) UpdateIpAddress(id int, ipAddress string) error {
+	_, err := Db.Exec("UPDATE lxcs SET ip_address=$1 WHERE id=$2", ipAddress, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
