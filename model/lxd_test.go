@@ -27,3 +27,11 @@ func TestGetLXD_ExpectedSuccess(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, 1, lxd.Id)
 }
+
+func TestGetLXDs_ExpectedSuccess(t *testing.T) {
+	setup()
+
+	lxds, err := lxdModel.GetLXDs()
+	assert.Equal(t, nil, err)
+	assert.NotEqual(t, nil, lxds)
+}

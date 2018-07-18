@@ -35,3 +35,23 @@ func (l *Lxd) GetLXD(ip string) (*Lxd, error) {
 
 	return &lxd, nil
 }
+
+func (l *Lxd) GetLXDs() ([]Lxd, error) {
+	rows, err := Db.Query("select * from lxds")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	lxds := []Lxd{}
+
+	for rows.Next() {
+		var lxd Lxd
+		if err := rows.Scan(&lxd.Id, &lxd.Name, &lxd.IpAddress); err != nil {
+			return nil, err
+		}
+		lxds = append(lxds, lxd)
+	}
+
+	return lxds, nil
+}
