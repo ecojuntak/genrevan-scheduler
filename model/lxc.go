@@ -78,3 +78,13 @@ func (l *Lxc) UpdateIpAddress(id int, ipAddress string) error {
 
 	return nil
 }
+
+func (l *Lxc) UpdateState(id int, status string) error {
+	_, err := Db.Exec("UPDATE lxcs SET status=$1 WHERE id=$2", status, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

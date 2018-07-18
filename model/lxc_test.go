@@ -79,3 +79,13 @@ func TestUpdateLXCIpAddress_ExpectedErrorDuplicateIp(t *testing.T) {
 	err = lxcModel.UpdateIpAddress(2, "127.0.0.1")
 	assert.True(t, strings.Contains(err.Error(), "duplicate key value violates unique constraint"))
 }
+
+func TestUpdateLXCState_ExpectedSuccess(t *testing.T) {
+	setup()
+
+	err := lxcModel.UpdateState(1, "running")
+	assert.Equal(t, nil, err)
+	lxc, err := lxcModel.GetLXC(1)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "running", lxc.Status)
+}
