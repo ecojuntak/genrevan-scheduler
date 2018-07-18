@@ -89,3 +89,13 @@ func TestUpdateLXCState_ExpectedSuccess(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, "running", lxc.Status)
 }
+
+func TestUpdateLXCLXDId_ExpectedSuccess(t *testing.T) {
+	setup()
+
+	err := lxcModel.UpdateLxdId(1, 1)
+	assert.Equal(t, nil, err)
+	lxc, err := lxcModel.GetLXC(1)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, int64(1), lxc.LxdId.Int64)
+}

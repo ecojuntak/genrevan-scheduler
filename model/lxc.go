@@ -88,3 +88,13 @@ func (l *Lxc) UpdateState(id int, status string) error {
 
 	return nil
 }
+
+func (l *Lxc) UpdateLxdId(id, lxdId int) error {
+	_, err := Db.Exec("UPDATE lxcs SET id_lxd=$1 WHERE id=$2", lxdId, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
