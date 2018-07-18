@@ -58,3 +58,13 @@ func (l *Lxc) CreateLXC(lxc Lxc) (*int, error) {
 
 	return &lxc.Id, nil
 }
+
+func (l *Lxc) DeleteLXC(id int) error {
+	_, err := Db.Exec("delete from lxcs where id=$1", id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

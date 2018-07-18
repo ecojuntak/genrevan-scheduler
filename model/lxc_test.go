@@ -47,3 +47,14 @@ func TestCreateLXC_ExpectedDataCreated(t *testing.T) {
 	assert.Equal(t, "xenial64", newLxc.Image)
 	assert.Equal(t, "pending", newLxc.Status)
 }
+
+func TestDeleteLXC_ExpectedDataDeleted(t *testing.T) {
+	setup()
+
+	err := lxcModel.DeleteLXC(3)
+	assert.Equal(t, nil, err)
+
+	lxc, err := lxcModel.GetLXC(3)
+	assert.Empty(t, lxc)
+	assert.NotEqual(t, nil, err)
+}
