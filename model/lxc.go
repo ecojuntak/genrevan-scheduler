@@ -48,3 +48,13 @@ func (l *Lxc) GetLXC(id int) (*Lxc, error) {
 
 	return &lxc, nil
 }
+
+func (l *Lxc) CreateLXC(lxc Lxc) (*int, error) {
+	err := Db.QueryRow("INSERT INTO lxcs(name, image) VALUES($1, $2) RETURNING id", lxc.Name, lxc.Image).Scan(&lxc.Id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &lxc.Id, nil
+}

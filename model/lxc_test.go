@@ -30,3 +30,20 @@ func TestGetLXC_ExpectedSuccess(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, 1, lxc.Id)
 }
+
+func TestCreateLXC_ExpectedDataCreated(t *testing.T) {
+	setup()
+
+	lxc := model.Lxc{
+		Name:  "GO-PAY System Configuration",
+		Image: "xenial64",
+	}
+
+	newLxcId, err := lxcModel.CreateLXC(lxc)
+	assert.Equal(t, nil, err)
+
+	newLxc, err := lxcModel.GetLXC(*newLxcId)
+	assert.Equal(t, "GO-PAY System Configuration", newLxc.Name)
+	assert.Equal(t, "xenial64", newLxc.Image)
+	assert.Equal(t, "pending", newLxc.Status)
+}

@@ -1,0 +1,17 @@
+language: go
+
+go :
+  - "1.10.x"
+
+branches:
+  only:
+    - development
+
+services:
+  - postgresql
+
+git:
+  depth: 1
+
+script:
+  - go test -v -race ./...
