@@ -8,10 +8,9 @@ services:
 
 install: true
 
-before_script:
-  - go get github.com/Masterminds/glide
-  - glide install
+before_install:
+  - go get -t -v ./...
 
 script:
   - go clean -testcache
-  - go test -v -race ./...
+  - go test -v ./...
