@@ -19,7 +19,7 @@ func TestRunMigration_ExpectedSuccess(t *testing.T) {
 }
 
 func TestGetStringFromFile_ExpectedFound(t *testing.T) {
-	_, err := migration.GetStringFromFile(basepath + "/migration/schema.sql")
+	_, err := migration.GetStringFromFile(basepath + "migration/schema.sql")
 	assert.Equal(t, nil, err)
 }
 

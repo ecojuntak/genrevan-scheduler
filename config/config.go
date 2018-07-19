@@ -19,7 +19,7 @@ type Conf struct {
 var basepath = util.GetRootFolderPath()
 
 func (c *Conf) GetConfig(configFilename string) (*Conf, error) {
-	yamlFile, err := ioutil.ReadFile(basepath + "/config/" + configFilename)
+	yamlFile, err := ioutil.ReadFile(basepath + "config/" + configFilename)
 	if err != nil {
 		return nil, errors.New("File not found")
 	}
