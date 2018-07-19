@@ -6,7 +6,9 @@ go :
 services:
   - postgresql
 
-install:
+install: true
+
+before_script:
   - go get github.com/Masterminds/glide
   - glide install
 
