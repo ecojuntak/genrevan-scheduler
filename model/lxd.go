@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/guregu/null"
 )
@@ -13,11 +14,15 @@ type Lxd struct {
 }
 
 func (l *Lxd) CreateLXD(ip string) error {
-	queryString := fmt.Sprintf("insert into lxds (ip_address) values('%s') on conflict do nothing", ip)
+	queryString := fmt.Sprintf("insert into lxds (ip_address) values('%s')", ip)
 	_, err := Db.Exec(queryString)
 
 	if err != nil {
-		return err
+		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+			return nil
+		} else {
+			return err
+		}
 	}
 
 	return nil

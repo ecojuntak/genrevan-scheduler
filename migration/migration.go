@@ -46,7 +46,6 @@ func RunSeeder() error {
 }
 
 func GetStringFromFile(filename string) (*string, error) {
-	fmt.Println(filename)
 	content, err := ioutil.ReadFile(filename)
 
 	if err != nil {

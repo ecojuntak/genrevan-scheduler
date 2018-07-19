@@ -20,6 +20,16 @@ func TestRegisterLXD_ExpectedSuccess(t *testing.T) {
 	assert.Equal(t, "196.127.123.123", lxd.IpAddress)
 }
 
+func TestRegisterLXD_ExpectedDuplicated(t *testing.T) {
+	setup()
+
+	err := lxdModel.CreateLXD("196.127.123.123")
+	assert.Equal(t, nil, err)
+
+	err = lxdModel.CreateLXD("196.127.123.123")
+	assert.Equal(t, nil, err)
+}
+
 func TestGetLXD_ExpectedSuccess(t *testing.T) {
 	setup()
 
