@@ -1,16 +1,7 @@
 language: go
 
-go :
-  - "1.10.3"
-
-services:
-  - postgresql
-
-install: true
-
-before_install:
-  - go get -v ./...
+go:
+  - 1.10.3
 
 script:
-  - go clean -testcache
   - go test -v ./...
