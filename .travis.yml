@@ -6,19 +6,8 @@ go:
 services:
   - postgresql
 
-addons:
-  postgresql: "10"
-  apt:
-    packages:
-      - postgresql-10
-      - postgresql-client-10
-
-dist: xenial
-
 before_script:
-  - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
-  - sudo service postgresql restart
-  - sleep 1
+  - sudo service postgresql start
   - psql -c 'CREATE DATABASE lxd_testing;' -U postgres
   - cp testing.example.yaml testing.yaml
   
