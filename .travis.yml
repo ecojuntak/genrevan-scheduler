@@ -6,6 +6,10 @@ go :
 services:
   - postgresql
 
+install:
+  - go get github.com/Masterminds/glide
+  - glide install
+
 before_script:
   - go get -t -v ./...
 
