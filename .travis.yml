@@ -8,7 +8,7 @@ services:
 
 before_script:
   - psql -c 'CREATE DATABASE lxd_testing;' -U postgres
-  - cp testing.example.yaml testing.yaml
+  - cp config/testing.example.yaml config/testing.yaml
 
 script:
   - go test -v ./...
