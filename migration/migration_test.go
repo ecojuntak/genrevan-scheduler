@@ -4,11 +4,15 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/go-squads/genrevan-scheduler/utils"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/go-squads/genrevan-scheduler/migration"
 	"github.com/go-squads/genrevan-scheduler/model"
 )
+
+var basepath = utils.GetRootFolderPath()
 
 func TestRunMigration_ExpectedSuccess(t *testing.T) {
 	err := migration.RunMigration()
@@ -16,7 +20,7 @@ func TestRunMigration_ExpectedSuccess(t *testing.T) {
 }
 
 func TestGetStringFromFile_ExpectedFound(t *testing.T) {
-	_, err := migration.GetStringFromFile("schema.sql")
+	_, err := migration.GetStringFromFile(basepath + "/migration/schema.sql")
 	assert.Equal(t, nil, err)
 }
 

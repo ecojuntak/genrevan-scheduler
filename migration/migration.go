@@ -6,7 +6,10 @@ import (
 	"io/ioutil"
 
 	"github.com/go-squads/genrevan-scheduler/model"
+	"github.com/go-squads/genrevan-scheduler/utils"
 )
+
+var basepath = utils.GetRootFolderPath()
 
 func RunMigration() error {
 	err := model.SetupDatabase("testing")
@@ -14,7 +17,7 @@ func RunMigration() error {
 		return err
 	}
 
-	queryString, err := GetStringFromFile("../migration/schema.sql")
+	queryString, err := GetStringFromFile(basepath + "/migration/schema.sql")
 
 	if err != nil {
 		return err
@@ -31,7 +34,7 @@ func RunSeeder() error {
 		return err
 	}
 
-	queryString, err := GetStringFromFile("../migration/seeder.sql")
+	queryString, err := GetStringFromFile(basepath + "/migration/seeder.sql")
 
 	if err != nil {
 		return err
