@@ -9,7 +9,7 @@ services:
 install: true
 
 before_install:
-  - go get -t -v ./...
+  - go get -v ./...
 
 script:
   - go clean -testcache
