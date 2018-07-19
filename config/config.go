@@ -4,8 +4,7 @@ import (
 	"errors"
 	"io/ioutil"
 
-	"github.com/go-squads/genrevan-scheduler/utils"
-
+	"github.com/go-squads/genrevan-scheduler/util"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -17,7 +16,7 @@ type Conf struct {
 	DbSslMode  string `yaml:"DB_SSL_MODE"`
 }
 
-var basepath = utils.GetRootFolderPath()
+var basepath = util.GetRootFolderPath()
 
 func (c *Conf) GetConfig(configFilename string) (*Conf, error) {
 	yamlFile, err := ioutil.ReadFile(basepath + "/config/" + configFilename)

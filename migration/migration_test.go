@@ -4,15 +4,14 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/go-squads/genrevan-scheduler/utils"
-
 	"github.com/stretchr/testify/assert"
 
 	"github.com/go-squads/genrevan-scheduler/migration"
 	"github.com/go-squads/genrevan-scheduler/model"
+	"github.com/go-squads/genrevan-scheduler/util"
 )
 
-var basepath = utils.GetRootFolderPath()
+var basepath = util.GetRootFolderPath()
 
 func TestRunMigration_ExpectedSuccess(t *testing.T) {
 	err := migration.RunMigration()

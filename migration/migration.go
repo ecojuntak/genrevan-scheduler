@@ -6,10 +6,10 @@ import (
 	"io/ioutil"
 
 	"github.com/go-squads/genrevan-scheduler/model"
-	"github.com/go-squads/genrevan-scheduler/utils"
+	"github.com/go-squads/genrevan-scheduler/util"
 )
 
-var basepath = utils.GetRootFolderPath()
+var basepath = util.GetRootFolderPath()
 
 func RunMigration() error {
 	err := model.SetupDatabase("testing")
