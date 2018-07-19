@@ -7,14 +7,8 @@ services:
   - postgresql
 
 before_script:
-  - sudo service postgresql start
   - psql -c 'CREATE DATABASE lxd_testing;' -U postgres
   - cp testing.example.yaml testing.yaml
-  
-env:
-  global:
-  - PGPORT=5433
-  - PGPASSWORD=""
 
 script:
   - go test -v ./...
