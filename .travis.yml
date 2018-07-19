@@ -10,9 +10,6 @@ install:
   - go get github.com/Masterminds/glide
   - glide install
 
-before_script:
-  - go get -t -v ./...
-
 script:
   - go clean -testcache
   - go test -v -race ./...
