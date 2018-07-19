@@ -1,0 +1,24 @@
+hash: b9288d41bb6d7d05a077dada3763977d0a555f1e13ba8244f6072ab657e18a3b
+updated: 2018-07-18T15:51:35.024319565+07:00
+imports:
+- name: github.com/guregu/null
+  version: e81d6d8d57747b34d7c5fe0d20ebf57692f04ea9
+- name: github.com/lib/pq
+  version: 8837942c3e09574accbc5f150e2c5e057189cace
+  subpackages:
+  - oid
+- name: gopkg.in/yaml.v2
+  version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
+testImports:
+- name: github.com/davecgh/go-spew
+  version: 8991bc29aa16c548c550c7ff78260e27b9ab7c73
+  subpackages:
+  - spew
+- name: github.com/pmezard/go-difflib
+  version: 792786c7400a136282c1664665ae0a8db921c6c2
+  subpackages:
+  - difflib
+- name: github.com/stretchr/testify
+  version: f35b8ab0b5a2cef36673838d662e249dd9c94686
+  subpackages:
+  - assert

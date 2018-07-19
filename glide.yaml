@@ -1,0 +1,12 @@
+package: github.com/go-squads/genrevan-scheduler
+import:
+- package: github.com/guregu/null
+  version: v3.3.0
+- package: github.com/lib/pq
+- package: gopkg.in/yaml.v2
+  version: v2.2.1
+testImport:
+- package: github.com/stretchr/testify
+  version: v1.2.2
+  subpackages:
+  - assert
