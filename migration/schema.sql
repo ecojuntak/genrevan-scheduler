@@ -17,7 +17,7 @@ create table lxcs (
 
 create table metrics (
   id serial primary key,
-  id_lxd int not null references lxds (id),
+  id_lxd int not null references lxds (id) unique,
   cpu_usage numeric not null default 0.0,
   memory_usage numeric not null default 0
 );
