@@ -4,11 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/go-squads/genrevan-scheduler/model"
 	"github.com/stretchr/testify/assert"
 )
-
-var metricModel model.Metric
 
 func TestCreateMetric_ExpectedSuccess(t *testing.T) {
 	setup()

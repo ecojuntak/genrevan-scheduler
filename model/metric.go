@@ -32,3 +32,17 @@ func (m *Metric) GetMetric(id int) (*Metric, error) {
 
 	return &metric, nil
 }
+
+func (m *Metric) GetMetricByLXDId(lxdId int) (*Metric, error) {
+	queryString := fmt.Sprintf("select * from metrics where id_lxd=%d", lxdId)
+
+	row := Db.QueryRow(queryString)
+
+	metric := Metric{}
+
+	if err := row.Scan(&metric.Id, &metric.IdLxd, &metric.CpuUsage, &metric.MemoryUsage); err != nil {
+		return nil, err
+	}
+
+	return &metric, nil
+}

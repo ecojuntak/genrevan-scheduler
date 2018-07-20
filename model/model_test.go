@@ -8,6 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var lxcModel model.Lxc
+var lxdModel model.Lxd
+var metricModel model.Metric
+
 func TestSetupDatabase_ExpectedConnect(t *testing.T) {
 	err := model.SetupDatabase("testing")
 	assert.Equal(t, nil, err)

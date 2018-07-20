@@ -10,8 +10,6 @@ import (
 	"github.com/go-squads/genrevan-scheduler/model"
 )
 
-var lxcModel model.Lxc
-
 func setup() {
 	model.SetupDatabase("testing")
 	migration.RunMigration()
