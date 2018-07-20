@@ -34,6 +34,27 @@ func (m *Metric) GetMetric(id int) (*Metric, error) {
 	return &metric, nil
 }
 
+func (m *Metric) GetMetrics() ([]Metric, error) {
+	rows, err := Db.Query("select * from metrics order by cpu_usage asc, memory_usage asc")
+
+	if err != nil {
+		return nil, err
+	}
+
+	metrics := []Metric{}
+
+	for rows.Next() {
+		var metric Metric
+		if err := rows.Scan(&metric.Id, &metric.IdLxd, &metric.CpuUsage, &metric.MemoryUsage, &metric.Counter); err != nil {
+			return nil, err
+		}
+
+		metrics = append(metrics, metric)
+	}
+
+	return metrics, nil
+}
+
 func (m *Metric) GetMetricByLXDId(lxdId int) (*Metric, error) {
 	queryString := fmt.Sprintf("select * from metrics where id_lxd=%d", lxdId)
 

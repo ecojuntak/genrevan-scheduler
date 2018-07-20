@@ -33,8 +33,11 @@ func SetupDatabase(env string) error {
 	}
 
 	db, err := sql.Open("postgres", connection)
-	err = db.Ping()
+	if err != nil {
+		return err
+	}
 
+	err = db.Ping()
 	if err != nil {
 		return err
 	}

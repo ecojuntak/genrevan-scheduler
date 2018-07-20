@@ -48,3 +48,53 @@ func TestUpdateMetric_ExpectedSuccess(t *testing.T) {
 	err = metricModel.UpdateMetric(metric)
 	assert.Equal(t, nil, err)
 }
+
+func TestGetMetrics_ExpectedSuccess(t *testing.T) {
+	err := setup()
+	assert.Equal(t, nil, err)
+
+	_, err = metricModel.CreateMetric(1)
+	assert.Equal(t, nil, err)
+
+	metricOne := model.Metric{
+		IdLxd:       1,
+		CpuUsage:    20.00,
+		MemoryUsage: 4096,
+		Counter:     2,
+	}
+
+	err = metricModel.UpdateMetric(metricOne)
+	assert.Equal(t, nil, err)
+
+	_, err = metricModel.CreateMetric(2)
+	assert.Equal(t, nil, err)
+
+	metricTwo := model.Metric{
+		IdLxd:       2,
+		CpuUsage:    10.00,
+		MemoryUsage: 4096,
+		Counter:     2,
+	}
+
+	err = metricModel.UpdateMetric(metricTwo)
+	assert.Equal(t, nil, err)
+
+	_, err = metricModel.CreateMetric(3)
+
+	assert.Equal(t, nil, err)
+	metricThree := model.Metric{
+		IdLxd:       3,
+		CpuUsage:    20.00,
+		MemoryUsage: 2048,
+		Counter:     2,
+	}
+
+	err = metricModel.UpdateMetric(metricThree)
+	assert.Equal(t, nil, err)
+
+	metrics, err := metricModel.GetMetrics()
+	assert.Equal(t, nil, err)
+	assert.Equal(t, 2, metrics[0].Id)
+	assert.Equal(t, 3, metrics[1].Id)
+	assert.Equal(t, 1, metrics[2].Id)
+}
