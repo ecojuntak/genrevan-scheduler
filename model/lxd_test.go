@@ -7,9 +7,10 @@ import (
 )
 
 func TestRegisterLXD_ExpectedSuccess(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
-	err := lxdModel.CreateLXD("196.127.123.123")
+	err = lxdModel.CreateLXD("196.127.123.123")
 	assert.Equal(t, nil, err)
 
 	lxd, err := lxdModel.GetLXD("196.127.123.123")
@@ -18,9 +19,10 @@ func TestRegisterLXD_ExpectedSuccess(t *testing.T) {
 }
 
 func TestRegisterLXD_ExpectedMetricCreated(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
-	err := lxdModel.CreateLXD("196.127.123.123")
+	err = lxdModel.CreateLXD("196.127.123.123")
 	assert.Equal(t, nil, err)
 
 	lxd, err := lxdModel.GetLXD("196.127.123.123")
@@ -32,9 +34,10 @@ func TestRegisterLXD_ExpectedMetricCreated(t *testing.T) {
 }
 
 func TestRegisterLXD_ExpectedDuplicated(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
-	err := lxdModel.CreateLXD("196.127.123.123")
+	err = lxdModel.CreateLXD("196.127.123.123")
 	assert.Equal(t, nil, err)
 
 	err = lxdModel.CreateLXD("196.127.123.123")
@@ -42,7 +45,8 @@ func TestRegisterLXD_ExpectedDuplicated(t *testing.T) {
 }
 
 func TestGetLXD_ExpectedSuccess(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
 	lxd, err := lxdModel.GetLXD("127.0.0.1")
 	assert.Equal(t, nil, err)
@@ -50,7 +54,8 @@ func TestGetLXD_ExpectedSuccess(t *testing.T) {
 }
 
 func TestGetLXDs_ExpectedSuccess(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
 	lxds, err := lxdModel.GetLXDs()
 	assert.Equal(t, nil, err)

@@ -6,32 +6,30 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-squads/genrevan-scheduler/migration"
 	"github.com/go-squads/genrevan-scheduler/model"
 )
 
-func setup() {
-	model.SetupDatabase("testing")
-	migration.RunMigration()
-	migration.RunSeeder()
-}
-
 func TestGetLXCs_ExpectedSuccess(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
+
 	lxcs, err := lxcModel.GetLXCs()
 	assert.Equal(t, nil, err)
 	assert.NotEqual(t, nil, lxcs)
 }
 
 func TestGetLXC_ExpectedSuccess(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
+
 	lxc, err := lxcModel.GetLXC(1)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, 1, lxc.Id)
 }
 
 func TestCreateLXC_ExpectedDataCreated(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
 	lxc := model.Lxc{
 		Name:  "GO-PAY System Configuration",
@@ -48,9 +46,10 @@ func TestCreateLXC_ExpectedDataCreated(t *testing.T) {
 }
 
 func TestDeleteLXC_ExpectedDataDeleted(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
-	err := lxcModel.DeleteLXC(3)
+	err = lxcModel.DeleteLXC(3)
 	assert.Equal(t, nil, err)
 
 	lxc, err := lxcModel.GetLXC(3)
@@ -59,9 +58,10 @@ func TestDeleteLXC_ExpectedDataDeleted(t *testing.T) {
 }
 
 func TestUpdateLXCIpAddress_ExpectedSuccess(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
-	err := lxcModel.UpdateIpAddress(1, "123.123.123.123")
+	err = lxcModel.UpdateIpAddress(1, "123.123.123.123")
 	assert.Equal(t, nil, err)
 
 	lxc, err := lxcModel.GetLXC(1)
@@ -70,18 +70,20 @@ func TestUpdateLXCIpAddress_ExpectedSuccess(t *testing.T) {
 }
 
 func TestUpdateLXCIpAddress_ExpectedErrorDuplicateIp(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
-	err := lxcModel.UpdateIpAddress(1, "127.0.0.1")
+	err = lxcModel.UpdateIpAddress(1, "127.0.0.1")
 	assert.Equal(t, nil, err)
 	err = lxcModel.UpdateIpAddress(2, "127.0.0.1")
 	assert.True(t, strings.Contains(err.Error(), "duplicate key value violates unique constraint"))
 }
 
 func TestUpdateLXCState_ExpectedSuccess(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
-	err := lxcModel.UpdateState(1, "running")
+	err = lxcModel.UpdateState(1, "running")
 	assert.Equal(t, nil, err)
 	lxc, err := lxcModel.GetLXC(1)
 	assert.Equal(t, nil, err)
@@ -89,9 +91,10 @@ func TestUpdateLXCState_ExpectedSuccess(t *testing.T) {
 }
 
 func TestUpdateLXCLXDId_ExpectedSuccess(t *testing.T) {
-	setup()
+	err := setup()
+	assert.Equal(t, nil, err)
 
-	err := lxcModel.UpdateLxdId(1, 1)
+	err = lxcModel.UpdateLxdId(1, 1)
 	assert.Equal(t, nil, err)
 	lxc, err := lxcModel.GetLXC(1)
 	assert.Equal(t, nil, err)

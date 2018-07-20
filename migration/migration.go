@@ -17,13 +17,17 @@ func RunMigration() error {
 		return err
 	}
 
-	queryString, err := GetStringFromFile(basepath + "migration/schema.sql")
+	migrationQueryString, err := GetStringFromFile(basepath + "migration/schema.sql")
 
 	if err != nil {
 		return err
 	}
 
-	model.Db.Exec(*queryString)
+	_, err = model.Db.Exec(*migrationQueryString)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -34,13 +38,13 @@ func RunSeeder() error {
 		return err
 	}
 
-	queryString, err := GetStringFromFile(basepath + "migration/seeder.sql")
+	seederQueryString, err := GetStringFromFile(basepath + "migration/seeder.sql")
 
 	if err != nil {
 		return err
 	}
 
-	model.Db.Exec(*queryString)
+	model.Db.Exec(*seederQueryString)
 
 	return nil
 }
