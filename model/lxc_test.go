@@ -4,6 +4,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/guregu/null"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/go-squads/genrevan-scheduler/model"
@@ -34,6 +36,7 @@ func TestCreateLXC_ExpectedDataCreated(t *testing.T) {
 	lxc := model.Lxc{
 		Name:  "GO-PAY System Configuration",
 		Image: "xenial64",
+		LxdId: null.NewInt(1, true),
 	}
 
 	newLxcId, err := lxcModel.CreateLXC(lxc)

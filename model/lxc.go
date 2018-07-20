@@ -50,7 +50,7 @@ func (l *Lxc) GetLXC(id int) (*Lxc, error) {
 }
 
 func (l *Lxc) CreateLXC(lxc Lxc) (*int, error) {
-	err := Db.QueryRow("INSERT INTO lxcs(name, image) VALUES($1, $2) RETURNING id", lxc.Name, lxc.Image).Scan(&lxc.Id)
+	err := Db.QueryRow("INSERT INTO lxcs(name, image, id_lxd) VALUES($1, $2, $3) RETURNING id", lxc.Name, lxc.Image, lxc.LxdId).Scan(&lxc.Id)
 
 	if err != nil {
 		return nil, err
