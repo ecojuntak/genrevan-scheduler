@@ -29,6 +29,16 @@ func TestGetLXC_ExpectedSuccess(t *testing.T) {
 	assert.Equal(t, 1, lxc.Id)
 }
 
+func TestGetLXCsByLXDId_ExpectedSuccess(t *testing.T) {
+	err := setup()
+	assert.Equal(t, nil, err)
+
+	lxcs, err := lxcModel.GetLXCsByLXDId(1)
+	assert.Equal(t, nil, err)
+	assert.NotEqual(t, nil, lxcs)
+	assert.Equal(t, 2, len(lxcs))
+}
+
 func TestCreateLXC_ExpectedDataCreated(t *testing.T) {
 	err := setup()
 	assert.Equal(t, nil, err)

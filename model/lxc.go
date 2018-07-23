@@ -49,6 +49,28 @@ func (l *Lxc) GetLXC(id int) (*Lxc, error) {
 	return &lxc, nil
 }
 
+func (l *Lxc) GetLXCsByLXDId(id int) ([]Lxc, error) {
+	queryString := fmt.Sprintf("select * from lxcs where id_lxd=%d", id)
+
+	rows, err := Db.Query(queryString)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	lxcs := []Lxc{}
+
+	for rows.Next() {
+		var lxc Lxc
+		if err := rows.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId); err != nil {
+			return nil, err
+		}
+		lxcs = append(lxcs, lxc)
+	}
+
+	return lxcs, nil
+}
+
 func (l *Lxc) CreateLXC(lxc Lxc) (*int, error) {
 	err := Db.QueryRow("INSERT INTO lxcs(name, image, id_lxd) VALUES($1, $2, $3) RETURNING id", lxc.Name, lxc.Image, lxc.LxdId).Scan(&lxc.Id)
 
