@@ -14,5 +14,8 @@ func SetupRouter() *mux.Router {
 	router.HandleFunc("/lxc/{id}/state", controller.UpdateLXCState).Methods("PATCH")
 	router.HandleFunc("/lxc/{id}/ip", controller.UpdateLXCIp).Methods("PATCH")
 
+	router.HandleFunc("/lxd", controller.GetLXDs).Methods("GET")
+	router.HandleFunc("/lxd/{ip}", controller.GetLXD).Methods("GET")
+
 	return router
 }
