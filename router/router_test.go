@@ -1,6 +1,8 @@
 package router_test
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -28,9 +30,28 @@ func executeRequest(req *http.Request) *httptest.ResponseRecorder {
 	return response
 }
 
-func TestGetLXCRouter_ExpecetedStatusOK(t *testing.T) {
+func TestGetLXCsRouter_ExpecetedStatusOK(t *testing.T) {
 	req, err := http.NewRequest("GET", "/lxc", nil)
 	response := executeRequest(req)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, http.StatusOK, response.Code)
+
+	lxcs := []model.Lxc{}
+	body, err := ioutil.ReadAll(response.Body)
+	err = json.Unmarshal(body, &lxcs)
+
+	assert.Equal(t, 3, len(lxcs))
+}
+
+func TestGetLXCRouter_ExpecetedStatusOK(t *testing.T) {
+	req, err := http.NewRequest("GET", "/lxc/1", nil)
+	response := executeRequest(req)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, http.StatusOK, response.Code)
+
+	lxc := model.Lxc{}
+	body, err := ioutil.ReadAll(response.Body)
+	err = json.Unmarshal(body, &lxc)
+
+	assert.Equal(t, 1, lxc.Id)
 }
