@@ -25,12 +25,12 @@ func TestSetupDatabase_ExpectedWrongEnvironment(t *testing.T) {
 
 func setup() error {
 	model.SetupDatabase("testing")
-	err := migration.RunMigration()
+	err := migration.RunMigration("testing")
 	if err != nil {
 		return err
 	}
 
-	err = migration.RunSeeder()
+	err = migration.RunSeeder("testing")
 
 	if err != nil {
 		return err

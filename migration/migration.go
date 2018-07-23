@@ -11,8 +11,8 @@ import (
 
 var basepath = util.GetRootFolderPath()
 
-func RunMigration() error {
-	err := model.SetupDatabase("testing")
+func RunMigration(env string) error {
+	err := model.SetupDatabase(env)
 	if err != nil {
 		return err
 	}
@@ -32,8 +32,8 @@ func RunMigration() error {
 	return nil
 }
 
-func RunSeeder() error {
-	err := model.SetupDatabase("testing")
+func RunSeeder(env string) error {
+	err := model.SetupDatabase(env)
 	if err != nil {
 		return err
 	}

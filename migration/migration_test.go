@@ -14,7 +14,7 @@ import (
 var basepath = util.GetRootFolderPath()
 
 func TestRunMigration_ExpectedSuccess(t *testing.T) {
-	err := migration.RunMigration()
+	err := migration.RunMigration("testing")
 	assert.Equal(t, nil, err)
 }
 
@@ -29,16 +29,16 @@ func TestGetStringFromFile_ExpectedFileNotFound(t *testing.T) {
 }
 
 func TestRunSeeder_ExpectedSuccess(t *testing.T) {
-	err := migration.RunMigration()
+	err := migration.RunMigration("testing")
 	assert.Equal(t, nil, err)
-	err = migration.RunSeeder()
+	err = migration.RunSeeder("testing")
 	assert.Equal(t, nil, err)
 }
 
 func TestRunSeeder_ExpectedDataCreated(t *testing.T) {
-	err := migration.RunMigration()
+	err := migration.RunMigration("testing")
 	assert.Equal(t, nil, err)
-	err = migration.RunSeeder()
+	err = migration.RunSeeder("testing")
 	assert.Equal(t, nil, err)
 
 	var lxcModel model.Lxc
