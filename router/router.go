@@ -19,5 +19,7 @@ func SetupRouter() *mux.Router {
 	router.HandleFunc("/lxd", controller.GetLXDs).Methods("GET")
 	router.HandleFunc("/lxd/{ip}", controller.GetLXD).Methods("GET")
 
+	router.HandleFunc("/metric/{id}", controller.UpdateMetric).Methods("PUT")
+
 	return router
 }
