@@ -9,6 +9,8 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/guregu/null"
+
 	"github.com/go-squads/genrevan-scheduler/migration"
 
 	"github.com/go-squads/genrevan-scheduler/model"
@@ -17,6 +19,8 @@ import (
 )
 
 const env = "testing"
+
+var lxcModel model.Lxc
 
 func init() {
 	model.SetupDatabase(env)
@@ -91,4 +95,23 @@ func TestUpdateLXCState_ExpectedStatusSucccess(t *testing.T) {
 	response := executeRequest(req)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, http.StatusNoContent, response.Code)
+
+	lxc, err := lxcModel.GetLXC(1)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "running", lxc.Status)
+}
+
+func TestUpdateLXCIp_ExpectedStatusSucccess(t *testing.T) {
+	data := url.Values{}
+	data.Set("ip", "192.168.1.1")
+
+	req, err := http.NewRequest("PATCH", "/lxc/1/ip", bytes.NewBufferString(data.Encode()))
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	response := executeRequest(req)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, http.StatusNoContent, response.Code)
+
+	lxc, err := lxcModel.GetLXC(1)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, null.NewString("192.168.1.1", true), lxc.IpAddress)
 }

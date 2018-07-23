@@ -76,3 +76,19 @@ func UpdateLXCState(w http.ResponseWriter, r *http.Request) {
 
 	RespondWithJSON(w, http.StatusNoContent, nil)
 }
+
+func UpdateLXCIp(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+
+	ip := r.FormValue("ip")
+
+	if err = lxcModel.UpdateIpAddress(id, ip); err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+
+	RespondWithJSON(w, http.StatusNoContent, nil)
+}
