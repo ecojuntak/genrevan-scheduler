@@ -107,3 +107,18 @@ func DeleteLXC(w http.ResponseWriter, r *http.Request) {
 
 	RespondWithJSON(w, http.StatusNoContent, nil)
 }
+
+func GetLXCsByLXDId(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+
+	lxcs, err := lxcModel.GetLXCsByLXDId(id)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+
+	RespondWithJSON(w, http.StatusOK, lxcs)
+}

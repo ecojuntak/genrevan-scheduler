@@ -94,6 +94,19 @@ func TestUpdateLXCIp_ExpectedStatusSucccess(t *testing.T) {
 	assert.Equal(t, null.NewString("192.168.1.1", true), lxc.IpAddress)
 }
 
+func TestGetLXCsByLXDId_ExpectedSuccess(t *testing.T) {
+	req, err := http.NewRequest("GET", "/lxc/lxd/1", nil)
+	response := executeRequest(req)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, http.StatusOK, response.Code)
+
+	lxcs := []model.Lxc{}
+	body, err := ioutil.ReadAll(response.Body)
+	err = json.Unmarshal(body, &lxcs)
+
+	assert.Equal(t, 2, len(lxcs))
+}
+
 func TestDeleteLXC_ExpectedStatusSuccess(t *testing.T) {
 	req, err := http.NewRequest("DELETE", "/lxc/1", nil)
 	response := executeRequest(req)
