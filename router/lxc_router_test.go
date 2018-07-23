@@ -93,3 +93,13 @@ func TestUpdateLXCIp_ExpectedStatusSucccess(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, null.NewString("192.168.1.1", true), lxc.IpAddress)
 }
+
+func TestDeleteLXC_ExpectedStatusSuccess(t *testing.T) {
+	req, err := http.NewRequest("DELETE", "/lxc/1", nil)
+	response := executeRequest(req)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, http.StatusNoContent, response.Code)
+
+	_, err = lxcModel.GetLXC(1)
+	assert.NotEqual(t, nil, err)
+}
