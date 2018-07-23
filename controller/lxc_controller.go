@@ -60,3 +60,19 @@ func CreateLXC(w http.ResponseWriter, r *http.Request) {
 
 	RespondWithJSON(w, http.StatusCreated, id)
 }
+
+func UpdateLXCState(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+
+	state := r.FormValue("state")
+
+	if err = lxcModel.UpdateState(id, state); err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+
+	RespondWithJSON(w, http.StatusNoContent, nil)
+}

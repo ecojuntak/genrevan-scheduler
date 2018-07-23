@@ -81,3 +81,14 @@ func TestCreateLXC_ExpectedStatusBadRequest(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, http.StatusBadRequest, response.Code)
 }
+
+func TestUpdateLXCState_ExpectedStatusSucccess(t *testing.T) {
+	data := url.Values{}
+	data.Set("state", "running")
+
+	req, err := http.NewRequest("PATCH", "/lxc/1/state", bytes.NewBufferString(data.Encode()))
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	response := executeRequest(req)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, http.StatusNoContent, response.Code)
+}
