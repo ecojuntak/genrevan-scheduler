@@ -37,6 +37,14 @@ func initCLI() {
 			},
 		},
 		{
+			Name:        "seed",
+			Description: "Run database seeder",
+			Action: func(c *cli.Context) error {
+				fmt.Println("Seeding finished")
+				return migration.RunSeeder("development")
+			},
+		},
+		{
 			Name:        "start",
 			Description: "Start REST API Server",
 			Action: func(c *cli.Context) error {
