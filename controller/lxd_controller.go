@@ -29,3 +29,21 @@ func GetLXD(w http.ResponseWriter, r *http.Request) {
 
 	RespondWithJSON(w, http.StatusOK, lxd)
 }
+
+func RegisterLXD(w http.ResponseWriter, r *http.Request) {
+	ip := r.FormValue("ip")
+
+	if len(ip) == 0 {
+		RespondWithError(w, http.StatusBadRequest, "Ip cannot be empty")
+	}
+
+	id, err := lxdModel.CreateLXD(ip)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+
+	data := make(map[string]int)
+	data["id"] = *id
+
+	RespondWithJSON(w, http.StatusCreated, data)
+}
