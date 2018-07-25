@@ -13,25 +13,26 @@ type Lxd struct {
 	IpAddress string      `json:"ip_address"`
 }
 
-func (l *Lxd) CreateLXD(ip string) error {
+func (l *Lxd) CreateLXD(ip string) (*int, error) {
 	queryString := fmt.Sprintf("insert into lxds (ip_address) values('%s') returning id", ip)
 	err := Db.QueryRow(queryString).Scan(&l.Id)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-			return nil
+			lxd, _ := l.GetLXD(ip)
+			return &lxd.Id, nil
 		} else {
-			return err
+			return nil, err
 		}
 	}
 
 	var metric Metric
 	_, err = metric.CreateMetric(l.Id)
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
-	return nil
+	return &l.Id, nil
 }
 
 func (l *Lxd) GetLXD(ip string) (*Lxd, error) {
