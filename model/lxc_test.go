@@ -54,7 +54,7 @@ func TestCreateLXC_ExpectedDataCreated(t *testing.T) {
 
 	newLxc, err := lxcModel.GetLXC(*newLxcId)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, "GO-PAY System Configuration", newLxc.Name)
+	assert.Equal(t, "GO-PAY-System-Configuration", newLxc.Name)
 	assert.Equal(t, "xenial64", newLxc.Image)
 	assert.Equal(t, "pending", newLxc.Status)
 }
