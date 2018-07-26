@@ -72,7 +72,13 @@ func (l *Lxc) GetLXCsByLXDId(id int) ([]Lxc, error) {
 }
 
 func (l *Lxc) CreateLXC(lxc Lxc) (*int, error) {
-	err := Db.QueryRow("INSERT INTO lxcs(name, image, id_lxd) VALUES($1, $2, $3) RETURNING id", lxc.Name, lxc.Image, lxc.LxdId).Scan(&lxc.Id)
+	err := ValidateLXCName(lxc.Name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	err = Db.QueryRow("INSERT INTO lxcs(name, image, id_lxd) VALUES($1, $2, $3) RETURNING id", lxc.Name, lxc.Image, lxc.LxdId).Scan(&lxc.Id)
 
 	if err != nil {
 		return nil, err
