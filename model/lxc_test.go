@@ -44,7 +44,7 @@ func TestCreateLXC_ExpectedDataCreated(t *testing.T) {
 	assert.Equal(t, nil, err)
 
 	lxc := model.Lxc{
-		Name:  "GO-PAY System Configuration",
+		Name:  "GO-PAY-System-Configuration",
 		Image: "xenial64",
 		LxdId: null.NewInt(1, true),
 	}

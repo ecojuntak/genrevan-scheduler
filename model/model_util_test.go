@@ -39,5 +39,5 @@ func TestValidateName_ExpectedSuccess(t *testing.T) {
 	s := "valid-ubuntu64"
 
 	err := model.ValidateLXCName(s)
-	assert.NotEqual(t, nil, err)
+	assert.Equal(t, nil, err)
 }
