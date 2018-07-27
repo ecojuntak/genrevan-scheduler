@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+	"net"
 	"net/http"
 
 	"github.com/go-squads/genrevan-scheduler/model"
@@ -31,7 +33,10 @@ func GetLXD(w http.ResponseWriter, r *http.Request) {
 }
 
 func RegisterLXD(w http.ResponseWriter, r *http.Request) {
-	ip := r.FormValue("ip")
+	ip, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		fmt.Printf("userip: %q is not IP:port", r.RemoteAddr)
+	}
 
 	if len(ip) == 0 {
 		RespondWithError(w, http.StatusBadRequest, "Ip cannot be empty")

@@ -1,11 +1,9 @@
 package router_test
 
 import (
-	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"testing"
 
 	"github.com/go-squads/genrevan-scheduler/model"
@@ -39,11 +37,8 @@ func TestGetLXDRouter_ExpectedStatusOK(t *testing.T) {
 }
 
 func TestRegisterLXD_ExpectedStatusOK(t *testing.T) {
-	data := url.Values{}
-	data.Set("ip", "127.0.0.1")
-
-	req, err := http.NewRequest("POST", "/lxd/register", bytes.NewBufferString(data.Encode()))
-	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	req, err := http.NewRequest("GET", "/lxd/register", nil)
+	req.RemoteAddr = "127.0.0.4:36496"
 	response := executeRequest(req)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, http.StatusCreated, response.Code)
@@ -52,5 +47,5 @@ func TestRegisterLXD_ExpectedStatusOK(t *testing.T) {
 	body, err := ioutil.ReadAll(response.Body)
 	err = json.Unmarshal(body, &dataResponse)
 
-	assert.Equal(t, 1, dataResponse["id"])
+	assert.Equal(t, 4, dataResponse["id"])
 }
