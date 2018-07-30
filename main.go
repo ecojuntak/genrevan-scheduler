@@ -20,7 +20,10 @@ func main() {
 func startServer() {
 	model.SetupDatabase("development")
 	router := router.SetupRouter()
-	http.ListenAndServe(":8000", router)
+	err := http.ListenAndServe(":8000", router)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func initCLI() {
