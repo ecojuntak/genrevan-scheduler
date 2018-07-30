@@ -9,15 +9,13 @@ import (
 )
 
 func TestConfig_ExpectedFileFound(t *testing.T) {
-	var conf config.Conf
-	_, err := conf.GetConfig("testing.example.yaml")
+	err := config.GetConfig("testing.example.yaml")
 
 	assert.Equal(t, nil, err)
 }
 
 func TestConfig_ExpectedFileNotFound(t *testing.T) {
-	var conf config.Conf
-	_, err := conf.GetConfig("testing.json")
+	err := config.GetConfig("testing.json")
 
 	assert.Equal(t, errors.New("File not found"), err)
 }

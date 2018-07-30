@@ -7,27 +7,28 @@ import (
 
 	"github.com/go-squads/genrevan-scheduler/config"
 	_ "github.com/lib/pq"
+	"github.com/spf13/viper"
 )
 
 var Db *sql.DB
 
 func SetupDatabase(env string) error {
 	var connection string
-	var conf config.Conf
+
 	if env == "development" {
-		c, err := conf.GetConfig(env + ".yaml")
+		err := config.GetConfig(env + ".yaml")
 		if err != nil {
 			return err
 		}
 
-		connection = fmt.Sprintf("user=%s password='%s' dbname=%s sslmode=%s", c.DbUser, c.DbPassword, c.DbName, c.DbSslMode)
+		connection = fmt.Sprintf("user=%s password='%s' dbname=%s sslmode=%s", viper.GetString("DB_USER"), viper.GetString("DB_PASSWORD"), viper.GetString("DB_NAME"), viper.GetString("DB_SSL_MODE"))
 	} else if env == "testing" {
-		c, err := conf.GetConfig(env + ".yaml")
+		err := config.GetConfig(env + ".yaml")
 		if err != nil {
 			return err
 		}
 
-		connection = fmt.Sprintf("user=%s password='%s' dbname=%s sslmode=%s", c.DbUser, c.DbPassword, c.DbName, c.DbSslMode)
+		connection = fmt.Sprintf("user=%s password='%s' dbname=%s sslmode=%s", viper.GetString("DB_USER"), viper.GetString("DB_PASSWORD"), viper.GetString("DB_NAME"), viper.GetString("DB_SSL_MODE"))
 	} else {
 		return errors.New("Environment not match")
 	}
