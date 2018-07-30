@@ -10,7 +10,7 @@ This scheduler use LXD worker's metrics like CPU and memory usage to decide whic
 - Testify
 - Postgresql
 
-##Configuration
+## Configuration
 Copy and rename ``` development.example.yaml ``` to ``` development.yaml ``` in folder ``` /config ```. Do the same thing for testing configuration file. Set your environment variable on the configuration file.
 
 
@@ -21,8 +21,7 @@ Copy and rename ``` development.example.yaml ``` to ``` development.yaml ``` in 
 ``` genrevan-scheduler migrate ```
 
 ## Seeding
-``` genrevan-scheduler seed ```
-Please define you own seeder first.
+Please define you own seeder first and run ``` genrevan-scheduler seed ```
 
 ## Run
 ``` genrevan-scheduler start ```
