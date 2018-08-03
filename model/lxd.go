@@ -35,8 +35,8 @@ func (l *Lxd) CreateLXD(ip string) (*int, error) {
 	return &l.Id, nil
 }
 
-func (l *Lxd) GetLXD(ip string) (*Lxd, error) {
-	queryString := fmt.Sprintf("select * from lxds where ip_address='%s'", ip)
+func (l *Lxd) GetLXD(id string) (*Lxd, error) {
+	queryString := fmt.Sprintf("select * from lxds where id='%s'", id)
 	row := Db.QueryRow(queryString)
 
 	lxd := Lxd{}

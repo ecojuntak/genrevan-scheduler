@@ -24,7 +24,7 @@ func TestGetLXDsRouter_ExpectedStatusOK(t *testing.T) {
 }
 
 func TestGetLXDRouter_ExpectedStatusOK(t *testing.T) {
-	req, err := http.NewRequest("GET", "/lxd/127.0.0.1", nil)
+	req, err := http.NewRequest("GET", "/lxd/1", nil)
 	response := executeRequest(req)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, http.StatusOK, response.Code)

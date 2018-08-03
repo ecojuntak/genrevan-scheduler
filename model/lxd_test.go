@@ -52,7 +52,7 @@ func TestGetLXD_ExpectedSuccess(t *testing.T) {
 	err := setup()
 	assert.Equal(t, nil, err)
 
-	lxd, err := lxdModel.GetLXD("127.0.0.1")
+	lxd, err := lxdModel.GetLXD("1")
 	assert.Equal(t, nil, err)
 	assert.Equal(t, 1, lxd.Id)
 }

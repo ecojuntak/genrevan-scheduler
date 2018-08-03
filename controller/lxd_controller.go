@@ -22,9 +22,9 @@ func GetLXDs(w http.ResponseWriter, r *http.Request) {
 
 func GetLXD(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	ip := params["ip"]
+	id := params["id"]
 
-	lxd, err := lxdModel.GetLXD(ip)
+	lxd, err := lxdModel.GetLXD(id)
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, err.Error())
 	}
