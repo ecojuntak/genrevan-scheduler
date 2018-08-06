@@ -3,3 +3,4 @@ DB_NAME: lxd_testing
 DB_USER: postgres
 DB_PASSWORD: 
 DB_SSL_MODE: disable
+LXC_THRESHOLD: 10

@@ -6,7 +6,11 @@ var metricModel model.Metric
 var lxcModel model.Lxc
 
 func GetLowestMetricLoad() (*model.Metric, error) {
-	metrics, err := metricModel.GetMetrics()
+	metrics, err := metricModel.GetMetricsBelowThreshold()
+
+	if len(metrics) < 1 {
+		metrics, err = metricModel.GetMetrics()
+	}
 
 	if err != nil {
 		return nil, err

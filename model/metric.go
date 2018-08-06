@@ -1,6 +1,10 @@
 package model
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/spf13/viper"
+)
 
 type Metric struct {
 	Id          int     `json:"id"`
@@ -36,6 +40,28 @@ func (m *Metric) GetMetric(id int) (*Metric, error) {
 
 func (m *Metric) GetMetrics() ([]Metric, error) {
 	rows, err := Db.Query("select * from metrics order by cpu_usage asc, memory_usage asc")
+
+	if err != nil {
+		return nil, err
+	}
+
+	metrics := []Metric{}
+
+	for rows.Next() {
+		var metric Metric
+		if err := rows.Scan(&metric.Id, &metric.IdLxd, &metric.CpuUsage, &metric.MemoryUsage, &metric.Counter); err != nil {
+			return nil, err
+		}
+
+		metrics = append(metrics, metric)
+	}
+
+	return metrics, nil
+}
+
+func (m *Metric) GetMetricsBelowThreshold() ([]Metric, error) {
+	queryString := fmt.Sprintf("SELECT * FROM metrics m where (SELECT COUNT(*) from lxcs where id_lxd=m.id_lxd) < %s order by m.cpu_usage asc, m.memory_usage asc;", viper.GetString("LXC_THRESHOLD"))
+	rows, err := Db.Query(queryString)
 
 	if err != nil {
 		return nil, err
