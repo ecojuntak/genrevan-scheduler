@@ -7,6 +7,8 @@ import (
 
 	"github.com/go-squads/genrevan-scheduler/migration"
 
+	"github.com/gorilla/handlers"
+
 	"github.com/urfave/cli"
 
 	"github.com/go-squads/genrevan-scheduler/model"
@@ -18,9 +20,13 @@ func main() {
 }
 
 func startServer() {
+	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With"})
+	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
+	allowedMethods := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS", "PATCH"})
+
 	model.SetupDatabase("development")
 	router := router.SetupRouter()
-	err := http.ListenAndServe(":8000", router)
+	err := http.ListenAndServe(":8000", handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router))
 	if err != nil {
 		fmt.Println(err)
 	}
