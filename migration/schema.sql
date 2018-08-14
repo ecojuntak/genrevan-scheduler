@@ -12,7 +12,9 @@ create table lxcs (
   ip_address text default null unique,
   image text not null,
   status text not null default 'pending',
-  id_lxd int default null references lxds (id)
+  id_lxd int default null references lxds (id),
+  host_port int not null,
+  container_port int not null
 );
 
 create table metrics (
