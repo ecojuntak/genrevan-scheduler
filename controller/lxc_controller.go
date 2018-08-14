@@ -1,8 +1,10 @@
 package controller
 
 import (
+	"math/rand"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/guregu/null"
 
@@ -12,6 +14,11 @@ import (
 )
 
 var lxcModel model.Lxc
+
+const (
+	minimumPortNum = 2000
+	maximumPortNum = 3000
+)
 
 func GetLXCs(w http.ResponseWriter, r *http.Request) {
 	lxcs, err := lxcModel.GetLXCs()
@@ -40,10 +47,13 @@ func GetLXC(w http.ResponseWriter, r *http.Request) {
 func CreateLXC(w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	image := r.FormValue("image")
+	containerPortStr := r.FormValue("containerPort")
 
-	if len(name) == 0 || len(image) == 0 {
-		RespondWithError(w, http.StatusBadRequest, "Name or Image cannot be empty")
+	if !isLXCFormValid(name, image, containerPortStr) {
+		RespondWithError(w, http.StatusBadRequest, "Name, Image, or Container Port cannot be empty")
 	}
+
+	containerPort, err := strconv.Atoi(containerPortStr)
 
 	metric, err := scheduler.GetLowestMetricLoad()
 
@@ -51,6 +61,8 @@ func CreateLXC(w http.ResponseWriter, r *http.Request) {
 		Name:  name,
 		Image: image,
 		LxdId: null.NewInt(int64(metric.IdLxd), true),
+		HostPort: getRandomPortNumber(minimumPortNum, maximumPortNum),
+		ContainerPort: containerPort,
 	}
 
 	id, err := lxcModel.CreateLXC(lxc)
@@ -121,4 +133,16 @@ func GetLXCsByLXDId(w http.ResponseWriter, r *http.Request) {
 	}
 
 	RespondWithJSON(w, http.StatusOK, lxcs)
+}
+
+func getRandomPortNumber(min int, max int) int {
+	seed := rand.NewSource(time.Now().UnixNano())
+	randomizer := rand.New(seed)
+	port := min + randomizer.Intn(max - min)
+
+	return port
+}
+
+func isLXCFormValid(lxcName, lxcImage, lxcPort string) bool {
+	return len(lxcName) != 0 && len(lxcImage) != 0 && len(lxcPort) != 0
 }
