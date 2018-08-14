@@ -13,6 +13,8 @@ type Lxc struct {
 	Image     string      `json:"image"`
 	Status    string      `json:"status"`
 	LxdId     null.Int    `json:"lxd_id"`
+	HostPort	int					`json:"host_port"`
+	ContainerPort int 		`json:"container_port"`
 }
 
 func (l *Lxc) GetLXCs() ([]Lxc, error) {
@@ -26,7 +28,7 @@ func (l *Lxc) GetLXCs() ([]Lxc, error) {
 
 	for rows.Next() {
 		var lxc Lxc
-		if err := rows.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId); err != nil {
+		if err := rows.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId, &lxc.HostPort, &lxc.ContainerPort); err != nil {
 			return nil, err
 		}
 		lxcs = append(lxcs, lxc)
@@ -42,7 +44,7 @@ func (l *Lxc) GetLXC(id int) (*Lxc, error) {
 
 	lxc := Lxc{}
 
-	if err := row.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId); err != nil {
+	if err := row.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId, &lxc.HostPort, &lxc.ContainerPort); err != nil {
 		return nil, err
 	}
 
@@ -62,7 +64,7 @@ func (l *Lxc) GetLXCsByLXDId(id int) ([]Lxc, error) {
 
 	for rows.Next() {
 		var lxc Lxc
-		if err := rows.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId); err != nil {
+		if err := rows.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId, &lxc.HostPort, &lxc.ContainerPort); err != nil {
 			return nil, err
 		}
 		lxcs = append(lxcs, lxc)
@@ -78,7 +80,7 @@ func (l *Lxc) CreateLXC(lxc Lxc) (*int, error) {
 		return nil, err
 	}
 
-	err = Db.QueryRow("INSERT INTO lxcs(name, image, id_lxd) VALUES($1, $2, $3) RETURNING id", lxc.Name, lxc.Image, lxc.LxdId).Scan(&lxc.Id)
+	err = Db.QueryRow("INSERT INTO lxcs(name, image, id_lxd, host_port, container_port) VALUES($1, $2, $3, $4, $5) RETURNING id", lxc.Name, lxc.Image, lxc.LxdId, lxc.HostPort, lxc.ContainerPort).Scan(&lxc.Id)
 
 	if err != nil {
 		return nil, err
