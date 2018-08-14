@@ -2,22 +2,22 @@ package router
 
 import (
 	"net/http"
-	
+
 	"github.com/go-squads/genrevan-scheduler/controller"
 	"github.com/gorilla/mux"
 )
 
 func withAllowCORS(next http.HandlerFunc) http.HandlerFunc {
-		return func(w http.ResponseWriter, r *http.Request) {
-			if r.Method == http.MethodOptions {
-				w.Header().Set("Access-Control-Allow-Origin", "*")
-				w.Header().Set("Access-Control-Allow-Methods", "POST, PATCH, GET, OPTIONS, PUT, DELETE")
-				w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-				w.Header().Set("Access-Control-Max-Age", "86400")
-				controller.RespondWithJSON(w, http.StatusOK, nil)
-			}
-			next.ServeHTTP(w,r)
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodOptions {
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Methods", "POST, PATCH, GET, OPTIONS, PUT, DELETE")
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+			w.Header().Set("Access-Control-Max-Age", "86400")
+			controller.RespondWithJSON(w, http.StatusOK, nil)
 		}
+		next.ServeHTTP(w, r)
+	}
 }
 
 func SetupRouter() *mux.Router {

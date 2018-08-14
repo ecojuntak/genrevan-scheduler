@@ -58,10 +58,10 @@ func CreateLXC(w http.ResponseWriter, r *http.Request) {
 	metric, err := scheduler.GetLowestMetricLoad()
 
 	lxc := model.Lxc{
-		Name:  name,
-		Image: image,
-		LxdId: null.NewInt(int64(metric.IdLxd), true),
-		HostPort: getRandomPortNumber(minimumPortNum, maximumPortNum),
+		Name:          name,
+		Image:         image,
+		LxdId:         null.NewInt(int64(metric.IdLxd), true),
+		HostPort:      getRandomPortNumber(minimumPortNum, maximumPortNum),
 		ContainerPort: containerPort,
 	}
 
@@ -138,7 +138,7 @@ func GetLXCsByLXDId(w http.ResponseWriter, r *http.Request) {
 func getRandomPortNumber(min int, max int) int {
 	seed := rand.NewSource(time.Now().UnixNano())
 	randomizer := rand.New(seed)
-	port := min + randomizer.Intn(max - min)
+	port := min + randomizer.Intn(max-min)
 
 	return port
 }

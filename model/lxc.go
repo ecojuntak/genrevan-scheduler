@@ -7,14 +7,14 @@ import (
 )
 
 type Lxc struct {
-	Id        int         `json:"id"`
-	Name      string      `json:"name"`
-	IpAddress null.String `json:"ip_address"`
-	Image     string      `json:"image"`
-	Status    string      `json:"status"`
-	LxdId     null.Int    `json:"lxd_id"`
-	HostPort	int					`json:"host_port"`
-	ContainerPort int 		`json:"container_port"`
+	Id            int         `json:"id"`
+	Name          string      `json:"name"`
+	IpAddress     null.String `json:"ip_address"`
+	Image         string      `json:"image"`
+	Status        string      `json:"status"`
+	LxdId         null.Int    `json:"lxd_id"`
+	HostPort      int         `json:"host_port"`
+	ContainerPort int         `json:"container_port"`
 }
 
 func (l *Lxc) GetLXCs() ([]Lxc, error) {
