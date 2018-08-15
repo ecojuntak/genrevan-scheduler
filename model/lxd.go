@@ -19,7 +19,7 @@ func (l *Lxd) CreateLXD(ip string) (*int, error) {
 
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-			lxd, _ := l.GetLXD(ip)
+			lxd, _ := l.getLXDByIP(ip)
 			return &lxd.Id, nil
 		} else {
 			return nil, err
@@ -66,4 +66,17 @@ func (l *Lxd) GetLXDs() ([]Lxd, error) {
 	}
 
 	return lxds, nil
+}
+
+func (l *Lxd) getLXDByIP(ip string) (*Lxd, error) {
+	queryString := fmt.Sprintf("select * from lxds where ip_address='%s'", ip)
+	row := Db.QueryRow(queryString)
+
+	lxd := Lxd{}
+
+	if err := row.Scan(&lxd.Id, &lxd.Name, &lxd.IpAddress); err != nil {
+		return nil, err
+	}
+
+	return &lxd, nil
 }
