@@ -23,6 +23,7 @@ func TestGetLXCsRouter_ExpecetedStatusOK(t *testing.T) {
 	lxcs := []model.Lxc{}
 	body, err := ioutil.ReadAll(response.Body)
 	err = json.Unmarshal(body, &lxcs)
+	assert.Equal(t, nil, err)
 
 	assert.Equal(t, 3, len(lxcs))
 }
@@ -44,6 +45,7 @@ func TestCreateLXC_ExpectedStatusCreated(t *testing.T) {
 	data := url.Values{}
 	data.Set("name", "foo")
 	data.Set("image", "xenial64")
+	data.Set("containerPort", "80")
 
 	req, err := http.NewRequest("POST", "/lxc", bytes.NewBufferString(data.Encode()))
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")

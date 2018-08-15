@@ -1,6 +1,7 @@
 package model_test
 
 import (
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -14,7 +15,7 @@ func TestRegisterLXD_ExpectedSuccess(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.NotEqual(t, nil, id)
 
-	lxd, err := lxdModel.GetLXD("196.127.123.123")
+	lxd, err := lxdModel.GetLXD(strconv.Itoa(*id))
 	assert.Equal(t, nil, err)
 	assert.Equal(t, "196.127.123.123", lxd.IpAddress)
 }
@@ -27,7 +28,7 @@ func TestRegisterLXD_ExpectedMetricCreated(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.NotEqual(t, nil, id)
 
-	lxd, err := lxdModel.GetLXD("196.127.123.123")
+	lxd, err := lxdModel.GetLXD(strconv.Itoa(*id))
 	assert.Equal(t, nil, err)
 
 	metric, err := metricModel.GetMetricByLXDId(lxd.Id)
