@@ -15,6 +15,7 @@ type Lxc struct {
 	LxdId         null.Int    `json:"lxd_id"`
 	HostPort      int         `json:"host_port"`
 	ContainerPort int         `json:"container_port"`
+	ErrorMessage	null.String	`json:"error_message"`
 }
 
 func (l *Lxc) GetLXCs() ([]Lxc, error) {
@@ -28,7 +29,7 @@ func (l *Lxc) GetLXCs() ([]Lxc, error) {
 
 	for rows.Next() {
 		var lxc Lxc
-		if err := rows.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId, &lxc.HostPort, &lxc.ContainerPort); err != nil {
+		if err := rows.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId, &lxc.HostPort, &lxc.ContainerPort, &lxc.ErrorMessage); err != nil {
 			return nil, err
 		}
 		lxcs = append(lxcs, lxc)
@@ -44,7 +45,7 @@ func (l *Lxc) GetLXC(id int) (*Lxc, error) {
 
 	lxc := Lxc{}
 
-	if err := row.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId, &lxc.HostPort, &lxc.ContainerPort); err != nil {
+	if err := row.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId, &lxc.HostPort, &lxc.ContainerPort, &lxc.ErrorMessage); err != nil {
 		return nil, err
 	}
 
@@ -64,7 +65,7 @@ func (l *Lxc) GetLXCsByLXDId(id int) ([]Lxc, error) {
 
 	for rows.Next() {
 		var lxc Lxc
-		if err := rows.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId, &lxc.HostPort, &lxc.ContainerPort); err != nil {
+		if err := rows.Scan(&lxc.Id, &lxc.Name, &lxc.IpAddress, &lxc.Image, &lxc.Status, &lxc.LxdId, &lxc.HostPort, &lxc.ContainerPort, &lxc.ErrorMessage); err != nil {
 			return nil, err
 		}
 		lxcs = append(lxcs, lxc)
@@ -121,6 +122,16 @@ func (l *Lxc) UpdateState(id int, status string) error {
 
 func (l *Lxc) UpdateLxdId(id, lxdId int) error {
 	_, err := Db.Exec("UPDATE lxcs SET id_lxd=$1 WHERE id=$2", lxdId, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (l *Lxc) UpdateErrorMessage(id int, msg string) error {
+	_, err := Db.Exec("UPDATE lxcs SET error_message=$1 WHERE id=$2", msg, id)
 
 	if err != nil {
 		return err

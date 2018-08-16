@@ -86,6 +86,13 @@ func UpdateLXCState(w http.ResponseWriter, r *http.Request) {
 		RespondWithError(w, http.StatusInternalServerError, err.Error())
 	}
 
+	if state == "failed" {
+		errorMsg := r.FormValue("error_message")
+		if err = lxcModel.UpdateErrorMessage(id, errorMsg); err != nil {
+			RespondWithError(w, http.StatusInternalServerError, err.Error())
+		}
+	}
+
 	RespondWithJSON(w, http.StatusNoContent, nil)
 }
 
