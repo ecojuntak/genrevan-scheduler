@@ -14,7 +14,8 @@ create table lxcs (
   status text not null default 'pending',
   id_lxd int default null references lxds (id),
   host_port int not null,
-  container_port int not null
+  container_port int not null,
+  error_message text default null
 );
 
 create table metrics (
