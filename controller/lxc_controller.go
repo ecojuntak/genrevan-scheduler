@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -61,7 +62,7 @@ func CreateLXC(w http.ResponseWriter, r *http.Request) {
 		Name:          name,
 		Image:         image,
 		LxdId:         null.NewInt(int64(metric.IdLxd), true),
-		HostPort:      getRandomPortNumber(minimumPortNum, maximumPortNum),
+		HostPort:      getValidHostPort(metric.IdLxd),
 		ContainerPort: containerPort,
 	}
 
@@ -71,6 +72,26 @@ func CreateLXC(w http.ResponseWriter, r *http.Request) {
 	}
 
 	RespondWithJSON(w, http.StatusCreated, id)
+}
+
+func getValidHostPort(idLXD int) (hostPort int) {
+	hostPort = getRandomPortNumber(minimumPortNum, maximumPortNum)
+	isExist, err := lxcModel.IsLXCsExist(idLXD, hostPort)
+	if err != nil {
+		// TODO: handle error here
+		fmt.Print(err.Error())
+	}
+	count := 0
+	for isExist && count < 15 {
+		hostPort = getRandomPortNumber(minimumPortNum, maximumPortNum)
+		isExist, err = lxcModel.IsLXCsExist(idLXD, hostPort)
+		if err != nil {
+			// TODO: handle error here
+			fmt.Print(err.Error())
+		}
+		count++
+	}
+	return
 }
 
 func UpdateLXCState(w http.ResponseWriter, r *http.Request) {
