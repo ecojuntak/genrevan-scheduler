@@ -15,7 +15,7 @@ type Lxc struct {
 	LxdId         null.Int    `json:"lxd_id"`
 	HostPort      int         `json:"host_port"`
 	ContainerPort int         `json:"container_port"`
-	ErrorMessage	null.String	`json:"error_message"`
+	ErrorMessage  null.String `json:"error_message"`
 }
 
 func (l *Lxc) GetLXCs() ([]Lxc, error) {
@@ -72,6 +72,20 @@ func (l *Lxc) GetLXCsByLXDId(id int) ([]Lxc, error) {
 	}
 
 	return lxcs, nil
+}
+
+func (l *Lxc) IsLXCsExist(id int, hostPort int) (bool, error) {
+	queryString := fmt.Sprintf("select id_lxd, host_port from lxcs where id_lxd=%d and host_port=%d", id, hostPort)
+
+	rows, err := Db.Query(queryString)
+	if err != nil {
+		return false, err
+	}
+	defer rows.Close()
+	if rows.Next() {
+		return true, nil
+	}
+	return false, nil
 }
 
 func (l *Lxc) CreateLXC(lxc Lxc) (*int, error) {
