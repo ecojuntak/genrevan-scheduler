@@ -36,6 +36,7 @@ func SetupRouter() *mux.Router {
 	router.HandleFunc("/lxd/{id}", controller.GetLXD).Methods("GET")
 
 	router.HandleFunc("/metric/{id}", controller.UpdateMetric).Methods("PUT")
+	router.HandleFunc("/images", controller.GetAllAvailableImages).Methods("GET")
 
 	return router
 }

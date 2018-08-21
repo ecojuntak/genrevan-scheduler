@@ -18,3 +18,8 @@ func ValidateLXCName(s string) error {
 
 	return nil
 }
+
+func ParseImageName(s string) string {
+	r := regexp.MustCompile("[0-9]+\\.[0-9]+")
+	return r.FindString(s)
+}
