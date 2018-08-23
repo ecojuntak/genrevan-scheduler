@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"sort"
 )
 
 const (
@@ -57,6 +58,10 @@ func (il *ImageList) getImageListByServerName(body []byte, serverName string) ([
 	}
 
 	parsedImageList := il.getParsedImageList(unparsedImageList)
+
+	var parsedImageListSlice sort.StringSlice = parsedImageList
+
+	sort.Sort(sort.Reverse(parsedImageListSlice[:]))
 
 	return parsedImageList, nil
 }
