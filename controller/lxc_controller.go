@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"fmt"
+	"errors"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -19,6 +19,7 @@ var lxcModel model.Lxc
 const (
 	minimumPortNum = 2000
 	maximumPortNum = 3000
+	maxIterationsFindHostPort = 15
 )
 
 func GetLXCs(w http.ResponseWriter, r *http.Request) {
@@ -58,40 +59,47 @@ func CreateLXC(w http.ResponseWriter, r *http.Request) {
 
 	metric, err := scheduler.GetLowestMetricLoad()
 
-	lxc := model.Lxc{
-		Name:          name,
-		Image:         image,
-		LxdId:         null.NewInt(int64(metric.IdLxd), true),
-		HostPort:      getValidHostPort(metric.IdLxd),
-		ContainerPort: containerPort,
-	}
+	hostPort, err := getValidHostPort(metric.IdLxd)
 
-	id, err := lxcModel.CreateLXC(lxc)
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, err.Error())
-	}
-
-	RespondWithJSON(w, http.StatusCreated, id)
+	} else {
+		lxc := model.Lxc{
+			Name:          name,
+			Image:         image,
+			LxdId:         null.NewInt(int64(metric.IdLxd), true),
+			HostPort:      hostPort,
+			ContainerPort: containerPort,
+		}
+	
+		id, err := lxcModel.CreateLXC(lxc)
+		if err != nil {
+			RespondWithError(w, http.StatusInternalServerError, err.Error())
+		} else {
+			RespondWithJSON(w, http.StatusCreated, id)
+		}
+	}	
 }
 
-func getValidHostPort(idLXD int) (hostPort int) {
-	hostPort = getRandomPortNumber(minimumPortNum, maximumPortNum)
-	isExist, err := lxcModel.IsLXCsExist(idLXD, hostPort)
-	if err != nil {
-		// TODO: handle error here
-		fmt.Print(err.Error())
-	}
-	count := 0
-	for isExist && count < 15 {
+func getValidHostPort(idLXD int) (int, error) {
+	var (
+		hostPort int
+		isExist bool = true
+		count int = 0
+		err error
+	)
+	for isExist && count < maxIterationsFindHostPort {
 		hostPort = getRandomPortNumber(minimumPortNum, maximumPortNum)
 		isExist, err = lxcModel.IsLXCsExist(idLXD, hostPort)
 		if err != nil {
-			// TODO: handle error here
-			fmt.Print(err.Error())
+			return 0, err
 		}
 		count++
 	}
-	return
+	if count == maxIterationsFindHostPort {
+		return -1, errors.New("Maximum iteration reached when finding host port, try creating new one again")
+	}
+	return hostPort, nil
 }
 
 func UpdateLXCState(w http.ResponseWriter, r *http.Request) {
