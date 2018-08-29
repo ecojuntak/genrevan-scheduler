@@ -8,6 +8,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
+const (
+	maxCounter = 100
+)
+
 var metricModel model.Metric
 
 func UpdateMetric(w http.ResponseWriter, r *http.Request) {
@@ -42,6 +46,10 @@ func calculateNewState(CPULoad float64, memoryLoad int, metric *model.Metric) mo
 	CPUAverage := metric.CpuUsage
 	memoryAverage := metric.MemoryUsage
 	counter := metric.Counter
+
+	if counter == maxCounter {
+		counter--
+	}
 
 	CPUTotal := CPUAverage * float64(counter)
 	memoryTotal := memoryAverage * counter
