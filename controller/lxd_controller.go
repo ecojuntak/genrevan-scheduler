@@ -50,5 +50,7 @@ func RegisterLXD(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]int)
 	data["id"] = *id
 
+	fmt.Printf("New LXD registered with IP Address %s\n", ip)
+
 	RespondWithJSON(w, http.StatusCreated, data)
 }
