@@ -41,16 +41,28 @@ func initCLI() {
 			Name:        "migrate",
 			Description: "Run database migration",
 			Action: func(c *cli.Context) error {
-				fmt.Println("Migration finished")
-				return migration.RunMigration("development")
+				err := migration.RunMigration("development")
+				if err == nil {
+					fmt.Println("Migration finished")
+				} else {
+					fmt.Println(err)
+				}
+
+				return err
 			},
 		},
 		{
 			Name:        "seed",
 			Description: "Run database seeder",
 			Action: func(c *cli.Context) error {
-				fmt.Println("Seeding finished")
-				return migration.RunSeeder("development")
+				err := migration.RunSeeder("development")
+				if err == nil {
+					fmt.Println("Seeding database finished")
+				} else {
+					fmt.Println(err)
+				}
+
+				return err
 			},
 		},
 		{
